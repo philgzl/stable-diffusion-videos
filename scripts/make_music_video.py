@@ -14,6 +14,7 @@ def main():
 
     with open(args.input) as f:
         cfg = yaml.safe_load(f)
+    cfg = argparse.Namespace(**cfg)
 
     pipe = StableDiffusionWalkPipeline.from_pretrained(
         "stabilityai/stable-diffusion-2-1",
