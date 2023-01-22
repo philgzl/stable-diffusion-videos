@@ -1,60 +1,39 @@
-from stable_diffusion_videos import StableDiffusionWalkPipeline
-
-from diffusers.models import AutoencoderKL
-from diffusers.schedulers import LMSDiscreteScheduler
 import torch
+
+from stable_diffusion_videos import StableDiffusionWalkPipeline
+from diffusers import DPMSolverMultistepScheduler
 
 
 pipe = StableDiffusionWalkPipeline.from_pretrained(
-    'runwayml/stable-diffusion-v1-5',
-    vae=AutoencoderKL.from_pretrained(f"stabilityai/sd-vae-ft-ema"),
+    "stabilityai/stable-diffusion-2-1",
     torch_dtype=torch.float16,
     revision="fp16",
+    feature_extractor=None,
     safety_checker=None,
-    scheduler=LMSDiscreteScheduler(
-        beta_start=0.00085, beta_end=0.012, beta_schedule="scaled_linear"
-    )
 ).to("cuda")
+pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
 
-
-# I give you permission to scrape this song :)
-# youtube-dl -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 -o "music/thoughts.%(ext)s" https://soundcloud.com/nateraw/thoughts
-audio_filepath = 'music/thoughts.mp3'
-
-# Seconds in the song. Here we slice the audio from 0:07-0:16
-# Should be same length as prompts/seeds.
-audio_offsets = [7, 10, 13, 16]
-
-# Output video frames per second.
-# Use lower values for testing (5 or 10), higher values for better quality (30 or 60)
-fps = 25
+# Seconds in the song.
+audio_offsets = [30, 60]  # [Start, end]
+fps = 5  # Use lower values for testing (5 or 10), higher values for better quality (30 or 60)
 
 # Convert seconds to frames
-# This array should be `len(prompts) - 1` as its steps between prompts.
 num_interpolation_steps = [(b-a) * fps for a, b in zip(audio_offsets, audio_offsets[1:])]
 
-prompts = [
-    'Baroque oil painting anime key visual concept art of wanderer above the sea of fog 1 8 1 8 with anime maid, brutalist, dark fantasy, rule of thirds golden ratio, fake detail, trending pixiv fanbox, acrylic palette knife, style of makoto shinkai studio ghibli genshin impact jamie wyeth james gilleard greg rutkowski chiho aoshima',
-    'the conscious mind entering the dark wood window into the surreal subconscious dream mind, majestic, dreamlike, surrealist, trending on artstation, by gustavo dore ',
-    'Chinese :: by martine johanna and simon stålenhag and chie yoshii and casey weldon and wlop :: ornate, dynamic, particulate, rich colors, intricate, elegant, highly detailed, centered, artstation, smooth, sharp focus, octane render, 3d',
-    'Chinese :: by martine johanna and simon stålenhag and chie yoshii and casey weldon and wlop :: ornate, dynamic, particulate, rich colors, intricate, elegant, highly detailed, centered, artstation, smooth, sharp focus, octane render, 3d',
-]
-seeds = [
-    6954010,
-    8092009,
-    1326004,
-    5019608,
-]
-pipe.walk(
-    prompts=prompts,
-    seeds=seeds,
+video_path = pipe.walk(
+    prompts=[
+        'steampunk fractal',
+        'mandelbulb acropolis',
+    ],
+    seeds=[123, 456],
     num_interpolation_steps=num_interpolation_steps,
-    fps=fps,
-    audio_filepath=audio_filepath,
+    audio_filepath='Long Island Sound - I Still Love You.mp3',
     audio_start_sec=audio_offsets[0],
-    batch_size=16,
-    num_inference_steps=50,
-    guidance_scale=15,
-    margin=1.0,
-    smooth=0.2,
+    fps=fps,
+    batch_size=12,
+    height=512,  # use multiples of 64 if > 512. Multiples of 8 if < 512.
+    width=512,   # use multiples of 64 if > 512. Multiples of 8 if < 512.
+    output_dir='dreams',        # Where images/videos will be saved
+    guidance_scale=7.5,         # Higher adheres to prompt more, lower lets model take the wheel
+    num_inference_steps=50,     # Number of diffusion steps per image generated. 50 is good default
 )
