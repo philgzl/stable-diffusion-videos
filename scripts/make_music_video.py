@@ -27,7 +27,6 @@ def main():
         pipe.scheduler.config
     )
 
-    # Convert seconds to frames
     num_interpolation_steps = [
         (b-a)*cfg.fps for a, b in zip(cfg.audio_offsets, cfg.audio_offsets[1:])
     ]

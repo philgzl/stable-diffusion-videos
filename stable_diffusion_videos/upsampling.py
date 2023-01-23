@@ -1,4 +1,5 @@
 from pathlib import Path
+import logging
 
 import cv2
 from PIL import Image
@@ -83,15 +84,18 @@ class RealESRGANModel(nn.Module):
             file = hf_hub_download(model_name_or_path, "RealESRGAN_x4plus.pth")
         return cls(file)
 
-    def upsample_imagefolder(self, in_dir, out_dir, suffix="out", outfile_ext=".png"):
+    def upsample_imagefolder(self, in_dir, out_dir, outfile_ext=".png"):
         in_dir, out_dir = Path(in_dir), Path(out_dir)
         if not in_dir.exists():
             raise FileNotFoundError(f"Provided input directory {in_dir} does not exist")
 
         out_dir.mkdir(exist_ok=True, parents=True)
 
-        image_paths = [x for x in in_dir.glob("*") if x.suffix.lower() in [".png", ".jpg", ".jpeg"]]
-        for image in image_paths:
+        logger = logging.getLogger(__name__)
+
+        image_paths = [x for x in in_dir.rglob("*") if x.suffix.lower() in [".png", ".jpg", ".jpeg"]]
+        for i, image in enumerate(image_paths):
+            logger.info(f'[{i}/{len(image_paths)}] Upscaling {image}')
             im = self(str(image))
-            out_filepath = out_dir / (image.stem + suffix + outfile_ext)
+            out_filepath = out_dir / image.relative_to(in_dir)
             im.save(out_filepath)
