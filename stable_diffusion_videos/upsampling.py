@@ -98,4 +98,5 @@ class RealESRGANModel(nn.Module):
             logger.info(f'[{i}/{len(image_paths)}] Upscaling {image}')
             im = self(str(image))
             out_filepath = out_dir / image.relative_to(in_dir)
+            out_filepath.parent.mkdir(parents=True, exist_ok=True)
             im.save(out_filepath)
