@@ -95,8 +95,11 @@ class RealESRGANModel(nn.Module):
 
         image_paths = [x for x in in_dir.rglob("*") if x.suffix.lower() in [".png", ".jpg", ".jpeg"]]
         for i, image in enumerate(image_paths):
+            out_filepath = out_dir / image.relative_to(in_dir)
+            if out_filepath.exists():
+                logger.info(f'{out_filepath} already exists')
+                continue
             logger.info(f'[{i}/{len(image_paths)}] Upscaling {image}')
             im = self(str(image))
-            out_filepath = out_dir / image.relative_to(in_dir)
             out_filepath.parent.mkdir(parents=True, exist_ok=True)
             im.save(out_filepath)
