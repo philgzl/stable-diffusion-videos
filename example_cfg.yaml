@@ -2,10 +2,10 @@ batch_size: 12
 fps: 10
 height: 512
 width: 512
-output_dir: 'dreams'
+output_dir: "dreams"
 guidance_scale: 7.5
 num_inference_steps: 50
-audio_filepath: Long Island Sound - I Still Love You.mp3
+audio_filepath: "Long Island Sound - I Still Love You.mp3"
 audio_offsets:
   - 0
   - 30
@@ -41,19 +41,19 @@ seeds:
   - 15
   - 16
 prompts:
-  - Mandelbulb digital art featuring a fractal sun: "A star of infinite beauty, where the intricate patterns of light and dark create a sense of wonder."
-  - Painting of a sunset over the ocean: "The setting sun casts a warm glow over the endless expanse of the sea."
-  - Digital art inspired by nature: "A visual representation of the fragility and resilience of the natural world."
-  - Digital illustration of a cyberpunk cityscape: "A neon-lit metropolis where technology and humanity coexist."
-  - Futuristic image of a solar-powered train: "A transportation of the future, where renewable energy propels us forward."
-  - Digital painting of a majestic dragon: "A creature of fire and power, the dragon reigns supreme in its kingdom."
-  - Trippy illustration of a psychedelic landscape: "A dreamlike world of vibrant colors and surreal shapes, where reality and fantasy blur together."
-  - Trippy digital art featuring a melting clock: "A visual representation of the fluidity of time and the fragility of our perception of reality."
-  - Landscape painting of a mountain range: "Towering peaks, a majestic sight, a testament to the power of nature."
-  - Trippy digital art featuring a fractal pattern: "A hypnotic spiral of shapes and colors, a visual representation of the infinite complexity of the universe."
-  - Mandelbulb image of a fractal landscape: "A world of infinite complexity, where every detail holds a universe of its own."
-  - Painting of a cityscape at night: "The city comes alive at night, a symphony of light and shadows."
-  - Futuristic digital art featuring a nanobot: "A glimpse of the future of medicine, where technology is used to heal and repair at the cellular level."
-  - Landscape painting of a waterfall: "The power of nature, captured in a moment of beauty and grace."
-  - Mandelbulb image of a fractal galaxy: "A journey through the infinite expanse of the universe, where every detail holds a universe of its own."
-  - Digital landscape of a post-apocalyptic wasteland: "A desolate place where only the strong survive."
+  - "Mandelbulb digital art featuring a fractal sun: A star of infinite beauty, where the intricate patterns of light and dark create a sense of wonder."
+  - "Painting of a sunset over the ocean: The setting sun casts a warm glow over the endless expanse of the sea."
+  - "Digital art inspired by nature: A visual representation of the fragility and resilience of the natural world."
+  - "Digital illustration of a cyberpunk cityscape: A neon-lit metropolis where technology and humanity coexist."
+  - "Futuristic image of a solar-powered train: A transportation of the future, where renewable energy propels us forward."
+  - "Digital painting of a majestic dragon: A creature of fire and power, the dragon reigns supreme in its kingdom."
+  - "Trippy illustration of a psychedelic landscape: A dreamlike world of vibrant colors and surreal shapes, where reality and fantasy blur together."
+  - "Trippy digital art featuring a melting clock: A visual representation of the fluidity of time and the fragility of our perception of reality."
+  - "Landscape painting of a mountain range: Towering peaks, a majestic sight, a testament to the power of nature."
+  - "Trippy digital art featuring a fractal pattern: A hypnotic spiral of shapes and colors, a visual representation of the infinite complexity of the universe."
+  - "Mandelbulb image of a fractal landscape: A world of infinite complexity, where every detail holds a universe of its own."
+  - "Painting of a cityscape at night: The city comes alive at night, a symphony of light and shadows."
+  - "Futuristic digital art featuring a nanobot: A glimpse of the future of medicine, where technology is used to heal and repair at the cellular level."
+  - "Landscape painting of a waterfall: The power of nature, captured in a moment of beauty and grace."
+  - "Mandelbulb image of a fractal galaxy: A journey through the infinite expanse of the universe, where every detail holds a universe of its own."
+  - "Digital landscape of a post-apocalyptic wasteland: A desolate place where only the strong survive."
