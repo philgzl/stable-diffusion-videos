@@ -620,8 +620,10 @@ class StableDiffusionWalkPipeline(DiffusionPipeline):
         )
 
         frame_index = skip
-        for i, (_, embeds_batch, noise_batch) in enumerate(batch_generator):
-            logger.info(f'Batch {i}/{len(batch_generator)}')
+        i = 0
+        for _, embeds_batch, noise_batch in batch_generator:
+            logger.info(f'Image {i}/{num_interpolation_steps}')
+            i += len(embeds_batch)
             outputs = self(
                 latents=noise_batch,
                 text_embeddings=embeds_batch,
