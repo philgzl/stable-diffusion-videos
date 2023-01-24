@@ -620,7 +620,8 @@ class StableDiffusionWalkPipeline(DiffusionPipeline):
         )
 
         frame_index = skip
-        for _, embeds_batch, noise_batch in batch_generator:
+        for i, (_, embeds_batch, noise_batch) in enumerate(batch_generator):
+            logger.info(f'Batch {i}/{len(batch_generator)}')
             outputs = self(
                 latents=noise_batch,
                 text_embeddings=embeds_batch,
@@ -813,6 +814,10 @@ class StableDiffusionWalkPipeline(DiffusionPipeline):
         for i, (prompt_a, prompt_b, seed_a, seed_b, num_step) in enumerate(
             zip(prompts, prompts[1:], seeds, seeds[1:], num_interpolation_steps)
         ):
+            logger.info(f'Walk {i}/{len(seeds)}')
+            logger.info(f'Prompt A: {prompt_a}; Seed: {seed_a}')
+            logger.info(f'Prompt B: {prompt_b}; Seed: {seed_b}')
+
             # {name}_000000 / {name}_000001 / ...
             save_path = save_path_root / f"{name}_{i:06d}"
 
@@ -864,27 +869,27 @@ class StableDiffusionWalkPipeline(DiffusionPipeline):
                 skip=skip,
                 negative_prompt=negative_prompt,
             )
-            make_video_pyav(
-                save_path,
-                audio_filepath=audio_filepath,
-                fps=fps,
-                output_filepath=step_output_filepath,
-                glob_pattern=f"*{image_file_ext}",
-                audio_offset=audio_offset,
-                audio_duration=audio_duration,
-                sr=44100,
-            )
+            # make_video_pyav(
+            #     save_path,
+            #     audio_filepath=audio_filepath,
+            #     fps=fps,
+            #     output_filepath=step_output_filepath,
+            #     glob_pattern=f"*{image_file_ext}",
+            #     audio_offset=audio_offset,
+            #     audio_duration=audio_duration,
+            #     sr=44100,
+            # )
 
-        return make_video_pyav(
-            save_path_root,
-            audio_filepath=audio_filepath,
-            fps=fps,
-            audio_offset=audio_start_sec,
-            audio_duration=sum(num_interpolation_steps) / fps,
-            output_filepath=output_filepath,
-            glob_pattern=f"**/*{image_file_ext}",
-            sr=44100,
-        )
+        # return make_video_pyav(
+        #     save_path_root,
+        #     audio_filepath=audio_filepath,
+        #     fps=fps,
+        #     audio_offset=audio_start_sec,
+        #     audio_duration=sum(num_interpolation_steps) / fps,
+        #     output_filepath=output_filepath,
+        #     glob_pattern=f"**/*{image_file_ext}",
+        #     sr=44100,
+        # )
 
     def embed_text(self, text, negative_prompt=None):
         """Helper to embed some text"""
