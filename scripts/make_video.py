@@ -46,6 +46,8 @@ def init_arg_parser():
                         help='audio offset for each prompt')
     parser.add_argument('--negative_prompt',
                         help='negative prompt (one for all images)')
+    parser.add_argument('--no_make_video', action='store_true',
+                        help='toggle to skip video making (only make images)')
 
     parser.add_argument('--cfg',
                         help='yaml config file (overwrites other options)')
@@ -147,6 +149,7 @@ def main():
         audio_filepath=args.audio_filepath,
         audio_start_sec=None if args.audio_offsets is None else args.audio_offsets[0],
         negative_prompt=args.negative_prompt,
+        make_video=not args.no_make_video
     )
 
 
