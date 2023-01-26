@@ -2,6 +2,8 @@
 
 Try it yourself in Colab: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nateraw/stable-diffusion-videos/blob/main/stable_diffusion_videos.ipynb)
 
+TPU version (~x6 faster than standard colab GPUs): [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nateraw/stable-diffusion-videos/blob/main/flax_stable_diffusion_videos.ipynb)
+
 **Example** - morphing between "blueberry spaghetti" and "strawberry spaghetti"
 
 https://user-images.githubusercontent.com/32437151/188721341-6f28abf9-699b-46b0-a72e-fa2a624ba0bb.mp4
@@ -43,6 +45,7 @@ huggingface-cli login
 ```
 
 ### Making Videos
+Note: For Apple M1 architecture, use ```torch.float32``` instead, as ```torch.float16``` is not available on MPS.
 
 ```python
 from stable_diffusion_videos import StableDiffusionWalkPipeline
