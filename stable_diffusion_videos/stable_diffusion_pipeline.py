@@ -34,7 +34,7 @@ from .upsampling import RealESRGANModel
 logger = logging.get_logger(__name__)  # pylint: disable=invalid-name
 
 
-def get_timesteps_arr(audio_filepath, offset, duration, fps=30, margin=1.0, smooth=1.0):
+def get_timesteps_arr(audio_filepath, offset, duration, fps=30, margin=1.0, smooth=0.0):
     y, sr = librosa.load(audio_filepath, offset=offset, duration=duration)
 
     # librosa.stft hardcoded defaults...
