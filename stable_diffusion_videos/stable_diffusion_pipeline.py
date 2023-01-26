@@ -52,6 +52,11 @@ def get_timesteps_arr(audio_filepath, offset, duration, fps=30, margin=1.0, smoo
     spec_max = np.amax(spec_raw, axis=0)
     spec_norm = (spec_max - np.min(spec_max)) / np.ptp(spec_max)
 
+    # Exponential smoothing
+    alpha = 0.1
+    import scipy.signal
+    spec_norm = scipy.signal.lfilter([alpha], [1, alpha-1], spec_norm)
+
     # Resize cumsum of spec norm to our desired number of interpolation frames
     x_norm = np.linspace(0, spec_norm.shape[-1], spec_norm.shape[-1])
     y_norm = np.cumsum(spec_norm)
