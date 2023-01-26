@@ -42,6 +42,7 @@ def main():
         height=cfg.height,
         width=cfg.width,
         output_dir=cfg.output_dir,
+        name=cfg.name,
         guidance_scale=cfg.guidance_scale,
         num_inference_steps=cfg.num_inference_steps,
     )
