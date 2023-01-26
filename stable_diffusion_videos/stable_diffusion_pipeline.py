@@ -55,6 +55,7 @@ def get_timesteps_arr(audio_filepath, offset, duration, fps=30, margin=1.0, smoo
     # Exponential smoothing
     alpha = 0.1
     import scipy.signal
+    breakpoint()
     spec_norm = scipy.signal.lfilter([alpha], [1, alpha-1], spec_norm)
 
     # Resize cumsum of spec norm to our desired number of interpolation frames
@@ -376,6 +377,12 @@ class StableDiffusionWalkPipeline(DiffusionPipeline):
             list of `bool`s denoting whether the corresponding generated image likely represents "not-safe-for-work"
             (nsfw) content, according to the `safety_checker`.
         """
+        import random
+        random.seed(42)
+        np.random.seed(42)
+        torch.manual_seed(42)
+        torch.cuda.manual_seed_all(42)
+
         # 0. Default height and width to unet
         height = height or self.unet.config.sample_size * self.vae_scale_factor
         width = width or self.unet.config.sample_size * self.vae_scale_factor
